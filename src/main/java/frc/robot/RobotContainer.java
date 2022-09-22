@@ -8,8 +8,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.shooting.Launch;
+import frc.robot.commands.shooting.Reload;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -22,6 +27,7 @@ public class RobotContainer {
   private static final class Button {
     // actually get the correct button
     private static final int testButton = 0; 
+    private static final int shootButton = 8;
   }
   private final int joystickPort = 0; // joystick usb port on the driver station
 
@@ -29,17 +35,21 @@ public class RobotContainer {
   public Joystick m_joystick = new Joystick(joystickPort);
 
   private JoystickButton m_TestButton = new JoystickButton(m_joystick, Button.testButton);
+  private JoystickButton m_shootButton = new JoystickButton(m_joystick, Button.shootButton);
 
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drivetrain = new Drivetrain(m_joystick);
+  private final Shooter m_shooter = new Shooter();
 
+  private final ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
+
+  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new Reload(m_shooter));
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings  
-
-    // do stuff with the drivetrain
     configureButtonBindings();
+
+    m_drivetrain.setDefaultCommand(m_arcadeDrive);
   }
 
   /**
@@ -53,6 +63,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // make a button then call a command when pressed
     // <button>.whenpressed(<command>)
+    m_shootButton.whenPressed(m_shootingSequence);
   }
 
   /**
@@ -63,9 +74,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
-  }
-
-  public void getTeleopCommand() {
-    m_drivetrain.periodic();
   }
 }
