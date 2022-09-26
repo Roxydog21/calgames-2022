@@ -9,6 +9,7 @@ import frc.robot.subsystems.Shooter;
 
 public class Latch extends CommandBase {
   private final Shooter m_shooter;
+
   /** Creates a new Latch. */
   public Latch(Shooter shooter) {
     m_shooter = shooter;
@@ -19,6 +20,7 @@ public class Latch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("IN LATCH");
     m_shooter.closeServo();
   }
 

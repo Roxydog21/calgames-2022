@@ -5,6 +5,7 @@ import frc.robot.subsystems.Shooter;
 
 public class Draw extends CommandBase {
   private final Shooter m_shooter;
+
   /** Creates a new Draw. */
   public Draw(Shooter shooter) {
     m_shooter = shooter;
@@ -15,6 +16,7 @@ public class Draw extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("IN Draw");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
