@@ -4,9 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,13 +23,13 @@ public class Drivetrain extends SubsystemBase {
 
   // change to wpi_talon to avoid inheritance problems
   // may need to add final stuff
-  private WPI_TalonFX leftTalon = new WPI_TalonFX(leftUpperMotorID);
-  private WPI_TalonFX rightTalon = new WPI_TalonFX(rightUpperMotorId);
-  // private WPI_TalonFX leftVictor = new WPI_TalonFX(leftLowerMotorID);
-  // private WPI_TalonFX rightVictor = new WPI_TalonFX(rightLowerMotorID);
+  private WPI_TalonFX m_leftPrimary = new WPI_TalonFX(leftUpperMotorID);
+  private WPI_TalonFX m_rightPrimary = new WPI_TalonFX(rightUpperMotorId);
+  // private WPI_TalonFX m_leftSecondary = new WPI_TalonFX(leftLowerMotorID);
+  // private WPI_TalonFX m_rightSecondary = new WPI_TalonFX(rightLowerMotorID);
 
   // via encapsulation
-  private DifferentialDrive m_differentialDrive = new DifferentialDrive(leftTalon, rightTalon);
+  private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
   private Joystick driveJoystick;
 
   /** Creates a new ExampleSubsystem. */
@@ -46,8 +44,8 @@ public class Drivetrain extends SubsystemBase {
     // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html?#axis-conventions
     // - look here
     // simply, ccw rotations are positive, and ccw goes backwards
-    leftTalon.setInverted(true);
-    rightTalon.setInverted(true);
+    // m_leftPrimary.setInverted(true);
+    // m_rightPrimary.setInverted(true);
     /*
      * leftVictor.setInverted(true);
      * rightVictor.setInverted(true);
