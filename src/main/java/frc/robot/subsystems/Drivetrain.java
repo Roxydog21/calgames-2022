@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,35 +30,17 @@ public class Drivetrain extends SubsystemBase {
 
   // via encapsulation
   private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
-  private Joystick driveJoystick;
 
   /** Creates a new ExampleSubsystem. */
-  public Drivetrain(Joystick joystick) {
-    driveJoystick = joystick;
+  public Drivetrain() {
 
-    // leftVictor.follow(leftTalon);
-    // rightVictor.follow(rightTalon);
     m_leftPrimary.setInverted(false);
-    m_rightPrimary.setInverted(true);
     m_leftSecondary.setInverted(false);
+    m_rightPrimary.setInverted(true);
     m_rightSecondary.setInverted(true);
 
     m_leftSecondary.follow(m_leftPrimary);
     m_rightSecondary.follow(m_rightPrimary);
-
-    // must invert all 4 motors
-    // why invert?
-    // https://docs.wpilib.org/en/stable/docs/software/hardware-apis/motors/wpi-drive-classes.html?#axis-conventions
-    // - look here
-    // simply, ccw rotations are positive, and ccw goes backwards
-    // m_leftPrimary.setInverted(true);
-    // m_rightPrimary.setInverted(true);
-    /*
-     * leftVictor.setInverted(true);
-     * rightVictor.setInverted(true);
-     */
-
-    // test call to method
   }
 
   // not sure why i need this but joystick stuff calls for it por something
