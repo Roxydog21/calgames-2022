@@ -32,6 +32,8 @@ public class RobotContainer {
     private static final int testButton = 0;
     private static final int shootButton = 8;
     private static final int reloadButton = 7;
+    private static final int lowGearButton = 5;
+    private static final int highGearButton = 6;
   }
 
   private final int joystickPort = 0; // joystick usb port on the driver station
@@ -41,6 +43,8 @@ public class RobotContainer {
   private JoystickButton m_TestButton = new JoystickButton(m_joystick, Button.testButton);
   private JoystickButton m_shootButton = new JoystickButton(m_joystick, Button.shootButton);
   private JoystickButton m_reload = new JoystickButton(m_joystick, Button.reloadButton);
+  private JoystickButton m_lowGearButton = new JoystickButton(m_joystick, Button.lowGearButton);
+  private JoystickButton m_highGearButton = new JoystickButton(m_joystick, Button.highGearButton);
 
   private Compressor m_compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
 
@@ -76,6 +80,8 @@ public class RobotContainer {
     // <button>.whenpressed(<command>)
     // m_shootButton.whenPressed(m_shootingSequence);
     // m_reload.whenPressed(new Reload(m_shooter));
+    m_lowGearButton.whenPressed(m_drivetrain.getLowGear());
+    m_highGearButton.whenPressed(m_drivetrain.getHighGear());
   }
 
   /**
