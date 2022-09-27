@@ -42,7 +42,7 @@ public class RobotContainer {
   private JoystickButton m_shootButton = new JoystickButton(m_joystick, Button.shootButton);
   private JoystickButton m_reload = new JoystickButton(m_joystick, Button.reloadButton);
 
-  private Compressor m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+  private Compressor m_compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
 
   // The robot's subsystems and commands are defined here...
   private final Drivetrain m_drivetrain = new Drivetrain();
