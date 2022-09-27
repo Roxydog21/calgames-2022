@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class ArcadeDrive extends CommandBase { 
+public class ArcadeDrive extends CommandBase {
     private static final class Config {
         public static final int kLeftStickY = 1;
         public static final int kRightStickX = 2;
@@ -21,12 +21,12 @@ public class ArcadeDrive extends CommandBase {
         m_joystick = joystick;
 
         addRequirements(drivetrain);
-    }    
+    }
 
     @Override
     public void execute() {
         double speed = -m_joystick.getRawAxis(Config.kLeftStickY) * Config.kSpeedMult;
-        double turn = -m_joystick.getRawAxis(Config.kRightStickX) * Config.kTurnMult;
+        double turn = m_joystick.getRawAxis(Config.kRightStickX) * Config.kTurnMult;
 
         m_drivetrain.getDiffDrive().arcadeDrive(speed, turn, true);
     }

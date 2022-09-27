@@ -71,8 +71,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // make a button then call a command when pressed
     // <button>.whenpressed(<command>)
-    m_shootButton.whenPressed(m_shootingSequence);
-    m_reload.whenPressed(new Reload(m_shooter));
+    // m_shootButton.whenPressed(m_shootingSequence);
+    // m_reload.whenPressed(new Reload(m_shooter));
   }
 
   /**

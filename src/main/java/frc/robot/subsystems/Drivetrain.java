@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -25,8 +26,8 @@ public class Drivetrain extends SubsystemBase {
   // may need to add final stuff
   private WPI_TalonFX m_leftPrimary = new WPI_TalonFX(leftUpperMotorID);
   private WPI_TalonFX m_rightPrimary = new WPI_TalonFX(rightUpperMotorId);
-  // private WPI_TalonFX m_leftSecondary = new WPI_TalonFX(leftLowerMotorID);
-  // private WPI_TalonFX m_rightSecondary = new WPI_TalonFX(rightLowerMotorID);
+  private WPI_TalonFX m_leftSecondary = new WPI_TalonFX(leftLowerMotorID);
+  private WPI_TalonFX m_rightSecondary = new WPI_TalonFX(rightLowerMotorID);
 
   // via encapsulation
   private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
@@ -38,6 +39,13 @@ public class Drivetrain extends SubsystemBase {
 
     // leftVictor.follow(leftTalon);
     // rightVictor.follow(rightTalon);
+    m_leftPrimary.setInverted(false);
+    m_rightPrimary.setInverted(true);
+    m_leftSecondary.setInverted(false);
+    m_rightSecondary.setInverted(true);
+
+    m_leftSecondary.follow(m_leftPrimary);
+    m_rightSecondary.follow(m_rightPrimary);
 
     // must invert all 4 motors
     // why invert?
@@ -63,7 +71,8 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // add drive stuff
-    m_differentialDrive.arcadeDrive(-driveJoystick.getY(), driveJoystick.getX());
+    // m_differentialDrive.arcadeDrive(-driveJoystick.getY(), driveJoystick.getX());
+    SmartDashboard.putData(m_differentialDrive);
   }
 
   @Override
