@@ -41,6 +41,8 @@ public class RobotContainer {
     private static final int intakeOffButton = 2;
     private static final int climbOnButton = 3;
     private static final int climbOffButton = 4;
+    private static final int intakeOutButton = 9;
+    private static final int intakeInButton = 10;
   }
 
   private final int joystickPort = 0; // joystick usb port on the driver station
@@ -55,6 +57,8 @@ public class RobotContainer {
   private JoystickButton m_intakeOffButton = new JoystickButton(m_joystick, Button.intakeOffButton);
   private JoystickButton m_climbOnButton = new JoystickButton(m_joystick, Button.climbOnButton);
   private JoystickButton m_climbOffButton = new JoystickButton(m_joystick, Button.climbOffButton);
+  private JoystickButton m_intakeOutButton = new JoystickButton(m_joystick, Button.intakeOutButton);
+  private JoystickButton m_intakeInButton = new JoystickButton(m_joystick, Button.intakeInButton);
 
   private Compressor m_compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
 
@@ -100,6 +104,9 @@ public class RobotContainer {
 
     m_climbOnButton.whenPressed(m_climb.getUp());
     m_climbOffButton.whenPressed(m_climb.getDown());
+
+    m_intakeOutButton.whenPressed(m_intake.getOut());
+    m_intakeInButton.whenPressed(m_intake.getIn());
   }
 
   /**
