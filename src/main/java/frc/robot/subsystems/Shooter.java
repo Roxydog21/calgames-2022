@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
-  public static final double kRunningSpeed = 0.75;
+  public static final double kRunningSpeed = 0.25;
   private final CANSparkMax m_motor = new CANSparkMax(7, MotorType.kBrushless);
 
   private final Servo m_servo = new Servo(9);

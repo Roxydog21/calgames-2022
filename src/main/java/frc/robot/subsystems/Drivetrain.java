@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -38,7 +39,6 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
-
     m_leftPrimary.setInverted(false);
     m_leftSecondary.setInverted(false);
     m_rightPrimary.setInverted(true);
@@ -46,6 +46,11 @@ public class Drivetrain extends SubsystemBase {
 
     m_leftSecondary.follow(m_leftPrimary);
     m_rightSecondary.follow(m_rightPrimary);
+
+    m_leftPrimary.setNeutralMode(NeutralMode.Coast);
+    m_leftSecondary.setNeutralMode(NeutralMode.Brake);
+    m_rightPrimary.setNeutralMode(NeutralMode.Coast);
+    m_rightSecondary.setNeutralMode(NeutralMode.Brake);
   }
 
   // not sure why i need this but joystick stuff calls for it por something

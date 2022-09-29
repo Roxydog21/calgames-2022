@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.shooting.Launch;
+import frc.robot.commands.shooting.Reload;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 
@@ -79,7 +80,7 @@ public class RobotContainer {
     // make a button then call a command when pressed
     // <button>.whenpressed(<command>)
     // m_shootButton.whenPressed(m_shootingSequence);
-    // m_reload.whenPressed(new Reload(m_shooter));
+    m_reload.whenPressed(new Reload(m_shooter));
     m_lowGearButton.whenPressed(m_drivetrain.getLowGear());
     m_highGearButton.whenPressed(m_drivetrain.getHighGear());
   }
