@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.shooting.Launch;
+import frc.robot.commands.shooting.Pause;
 import frc.robot.commands.shooting.Reload;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
@@ -55,7 +57,8 @@ public class RobotContainer {
 
   private final ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
 
-  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter));
+  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new Pause(0.5),
+      new Reload(m_shooter));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -83,6 +86,9 @@ public class RobotContainer {
     m_reload.whenPressed(new Reload(m_shooter));
     m_lowGearButton.whenPressed(m_drivetrain.getLowGear());
     m_highGearButton.whenPressed(m_drivetrain.getHighGear());
+    m_shootButton.whenPressed(m_shootingSequence);
+    // m_reload.whenPressed(new InstantCommand(() -> m_shooter.openServo()));
+    // m_shootButton.whenPressed(new InstantCommand(() -> m_shooter.closeServo()));
   }
 
   /**
