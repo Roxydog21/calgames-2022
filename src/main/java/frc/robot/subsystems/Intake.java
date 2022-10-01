@@ -10,8 +10,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.ejml.interfaces.SolveNullSpace;
-
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,7 +20,7 @@ public class Intake extends SubsystemBase {
   public static final int hopperMotorId = 10;
   public static final int armChannel = 0;
 
-  public static final double intakeSpeed = 0.5;
+  public static final double intakeSpeed = 0.3;
   public static final double hopperSpeed = 0.8;
 
 
