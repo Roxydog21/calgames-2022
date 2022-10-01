@@ -21,7 +21,7 @@ public class Drivetrain extends SubsystemBase {
   public static final int leftLowerMotorID = 3;
   public static final int rightLowerMotorID = 1;
   public static final int rightUpperMotorId = 2;
-  
+
   public static final int lowGearSolenoid = 6;
   public static final int highGearSolenoid = 1;
 
@@ -35,7 +35,8 @@ public class Drivetrain extends SubsystemBase {
   // via encapsulation
   private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
 
-  private DoubleSolenoid m_shifters = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, highGearSolenoid, lowGearSolenoid);
+  private DoubleSolenoid m_shifters = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, highGearSolenoid,
+      lowGearSolenoid);
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
@@ -48,9 +49,9 @@ public class Drivetrain extends SubsystemBase {
     m_rightSecondary.follow(m_rightPrimary);
 
     m_leftPrimary.setNeutralMode(NeutralMode.Coast);
-    m_leftSecondary.setNeutralMode(NeutralMode.Brake);
+    m_leftSecondary.setNeutralMode(NeutralMode.Coast);
     m_rightPrimary.setNeutralMode(NeutralMode.Coast);
-    m_rightSecondary.setNeutralMode(NeutralMode.Brake);
+    m_rightSecondary.setNeutralMode(NeutralMode.Coast);
   }
 
   // not sure why i need this but joystick stuff calls for it por something
