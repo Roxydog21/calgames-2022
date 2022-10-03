@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
-  // talon srx, victor spx, victor spx, talon srx
   public static final int leftUpperMotorID = 4;
   public static final int leftLowerMotorID = 3;
   public static final int rightLowerMotorID = 1;
@@ -25,14 +24,11 @@ public class Drivetrain extends SubsystemBase {
   public static final int lowGearSolenoid = 6;
   public static final int highGearSolenoid = 1;
 
-  // change to wpi_talon to avoid inheritance problems
-  // may need to add final stuff
   private WPI_TalonFX m_leftPrimary = new WPI_TalonFX(leftUpperMotorID);
   private WPI_TalonFX m_rightPrimary = new WPI_TalonFX(rightUpperMotorId);
   private WPI_TalonFX m_leftSecondary = new WPI_TalonFX(leftLowerMotorID);
   private WPI_TalonFX m_rightSecondary = new WPI_TalonFX(rightLowerMotorID);
 
-  // via encapsulation
   private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
 
   private DoubleSolenoid m_shifters = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, highGearSolenoid,

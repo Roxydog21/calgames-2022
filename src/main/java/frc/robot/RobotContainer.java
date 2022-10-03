@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -39,7 +40,6 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   private static final class Button {
-    // actually get the correct button
     private static final int shootButton = 8;
     private static final int reloadButton = 7;
     private static final int lowGearButton = 5;
@@ -105,6 +105,8 @@ public class RobotContainer {
 
     m_drivetrain.setDefaultCommand(m_arcadeDrive);
     m_intake.setDefaultCommand(m_intakeIdle);
+
+    CameraServer.startAutomaticCapture();
   }
 
   /**
