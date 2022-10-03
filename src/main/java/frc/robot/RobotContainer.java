@@ -11,11 +11,14 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.Pause;
+import frc.robot.commands.IntakeIdle;
+import frc.robot.commands.shooting.Draw;
+import frc.robot.commands.shooting.Latch;
 import frc.robot.commands.shooting.Launch;
-import frc.robot.commands.shooting.Reload;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -34,7 +37,7 @@ public class RobotContainer {
   private static final class Button {
     // actually get the correct button
     private static final int shootButton = 8;
-    private static final int releaseButton = 7;
+    private static final int reloadButton = 7;
     private static final int lowGearButton = 5;
     private static final int highGearButton = 6;
     private static final int intakeOnButton = 1;
@@ -50,7 +53,7 @@ public class RobotContainer {
   public Joystick m_joystick = new Joystick(joystickPort);
 
   private JoystickButton m_shootButton = new JoystickButton(m_joystick, Button.shootButton);
-  private JoystickButton m_release = new JoystickButton(m_joystick, Button.releaseButton);
+  private JoystickButton m_reloadButton = new JoystickButton(m_joystick, Button.reloadButton);
   private JoystickButton m_lowGearButton = new JoystickButton(m_joystick, Button.lowGearButton);
   private JoystickButton m_highGearButton = new JoystickButton(m_joystick, Button.highGearButton);
   private JoystickButton m_intakeOnButton = new JoystickButton(m_joystick, Button.intakeOnButton);
@@ -70,8 +73,9 @@ public class RobotContainer {
 
   private final ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
 
-  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new Pause(0.5),
-      new Reload(m_shooter));
+  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new WaitCommand(0.5), new Latch(m_shooter));
+  private final Command m_reload = new Draw(m_shooter);
+  private final Command m_intakeIdle = new IntakeIdle(m_intake);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,6 +85,7 @@ public class RobotContainer {
     m_compressor.enableDigital();
 
     m_drivetrain.setDefaultCommand(m_arcadeDrive);
+    m_intake.setDefaultCommand(m_intakeIdle);
   }
 
   /**
@@ -92,15 +97,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_release.whenPressed(new Launch(m_shooter));
+    m_reloadButton.whenPressed(m_reload);
     m_lowGearButton.whenPressed(m_drivetrain.getLowGear());
     m_highGearButton.whenPressed(m_drivetrain.getHighGear());
     m_shootButton.whenPressed(m_shootingSequence);
 
-    m_intakeOnButton.whenPressed(m_intake.getRun());
-    m_intakeOnButton.whenReleased(m_intake.getStop());
-    m_intakeOffButton.whenPressed(m_intake.getRev());
-    m_intakeOffButton.whenReleased(m_intake.getStop());
+    m_intakeOnButton.toggleWhenPressed(new StartEndCommand(m_intake::run, m_intake::stop, m_intake));
+    m_intakeOffButton.toggleWhenPressed(new StartEndCommand(m_intake::reverse, m_intake::stop, m_intake));
 
     m_climbOnButton.whenPressed(m_climb.getUp());
     m_climbOffButton.whenPressed(m_climb.getDown());

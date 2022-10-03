@@ -4,38 +4,35 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake;
 
-public class Pause extends CommandBase {
-  private double initTime;
-  private double total;
+public class IntakeIdle extends CommandBase {
+  private Intake m_intake;
+  /** Creates a new IntakeIdle. */
+  public IntakeIdle(Intake intake) {
+    m_intake = intake;
 
-  /** Creates a new Pause. */
-  public Pause(double time) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    total = time;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    initTime = Timer.getFPGATimestamp();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_intake.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Timer.getFPGATimestamp() - initTime) >= total;
+    return false;
   }
 }
