@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -82,7 +82,7 @@ public class RobotContainer {
   private final Command m_reload = new Draw(m_shooter);
   private final Command m_intakeIdle = new IntakeIdle(m_intake);
   private final Command m_autoSequence = new SequentialCommandGroup(
-      new ParallelCommandGroup(
+      new ParallelRaceGroup(
           new DrivetrainIdle(m_drivetrain),
           new SequentialCommandGroup(
               new Reload(m_shooter),
@@ -90,9 +90,11 @@ public class RobotContainer {
               new Launch(m_shooter),
               new WaitCommand(0.5),
               m_drivetrain.getLowGear())),
-      new ParallelCommandGroup(
+      new ParallelRaceGroup(
           new Latch(m_shooter),
-          new MoveForTime(m_drivetrain, 2)));
+          new SequentialCommandGroup(
+              new MoveForTime(m_drivetrain, 2),
+              new DrivetrainIdle(m_drivetrain))));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
