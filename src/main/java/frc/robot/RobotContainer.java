@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.DrivetrainIdle;
 import frc.robot.commands.IntakeIdle;
 import frc.robot.commands.MoveForTime;
 import frc.robot.commands.shooting.Draw;
@@ -80,9 +81,18 @@ public class RobotContainer {
       new Latch(m_shooter));
   private final Command m_reload = new Draw(m_shooter);
   private final Command m_intakeIdle = new IntakeIdle(m_intake);
-  private final Command m_autoSequence = new SequentialCommandGroup(new Reload(m_shooter), new WaitCommand(0.5),
-      new Launch(m_shooter), new WaitCommand(0.5), m_drivetrain.getLowGear(),
-      new ParallelCommandGroup(new Latch(m_shooter), new MoveForTime(m_drivetrain, 2)));
+  private final Command m_autoSequence = new SequentialCommandGroup(
+      new ParallelCommandGroup(
+          new DrivetrainIdle(m_drivetrain),
+          new SequentialCommandGroup(
+              new Reload(m_shooter),
+              new WaitCommand(0.5),
+              new Launch(m_shooter),
+              new WaitCommand(0.5),
+              m_drivetrain.getLowGear())),
+      new ParallelCommandGroup(
+          new Latch(m_shooter),
+          new MoveForTime(m_drivetrain, 2)));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
