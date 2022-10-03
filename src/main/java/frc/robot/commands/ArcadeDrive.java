@@ -10,7 +10,7 @@ public class ArcadeDrive extends CommandBase {
     public static final int kRightStickX = 2;
 
     public static final double kSpeedMult = 0.7;
-    public static final double kTurnMult = 0.8;
+    public static final double kTurnMult = 0.7;
   }
 
   private final Drivetrain m_drivetrain;
