@@ -81,7 +81,8 @@ public class RobotContainer {
   private final Command m_reload = new Draw(m_shooter);
   private final Command m_intakeIdle = new IntakeIdle(m_intake);
   private final Command m_autoSequence = new SequentialCommandGroup(new Reload(m_shooter), new WaitCommand(0.5),
-      new Launch(m_shooter), new WaitCommand(0.5), new ParallelCommandGroup(new Latch(m_shooter), new MoveForTime(m_drivetrain, 2)));
+      new Launch(m_shooter), new WaitCommand(0.5), m_drivetrain.getLowGear(),
+      new ParallelCommandGroup(new Latch(m_shooter), new MoveForTime(m_drivetrain, 2)));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

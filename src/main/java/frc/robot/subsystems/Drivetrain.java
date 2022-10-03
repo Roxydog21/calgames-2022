@@ -73,10 +73,10 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public InstantCommand getHighGear() {
-    return new InstantCommand(() -> m_shifters.set(Value.kForward));
+    return new InstantCommand(() -> m_shifters.set(Value.kReverse));
   }
 
   public InstantCommand getLowGear() {
-    return new InstantCommand(() -> m_shifters.set(Value.kReverse));
+    return new InstantCommand(() -> m_shifters.set(Value.kForward));
   }
 }

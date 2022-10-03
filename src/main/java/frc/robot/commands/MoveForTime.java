@@ -12,10 +12,12 @@ public class MoveForTime extends CommandBase {
   private Timer m_timer;
   private Drivetrain m_drivetrain;
   private double m_time;
+
   /** Creates a new MoveForTime. */
   public MoveForTime(Drivetrain drivetrain, double time) {
     m_drivetrain = drivetrain;
     m_time = time;
+    m_timer = new Timer();
 
     addRequirements(drivetrain);
   }
