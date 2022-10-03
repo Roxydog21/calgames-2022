@@ -10,15 +10,18 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.IntakeIdle;
+import frc.robot.commands.MoveForTime;
 import frc.robot.commands.shooting.Draw;
 import frc.robot.commands.shooting.Latch;
 import frc.robot.commands.shooting.Launch;
+import frc.robot.commands.shooting.Reload;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -73,9 +76,12 @@ public class RobotContainer {
 
   private final ArcadeDrive m_arcadeDrive = new ArcadeDrive(m_drivetrain, m_joystick);
 
-  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new WaitCommand(0.5), new Latch(m_shooter));
+  private final Command m_shootingSequence = new SequentialCommandGroup(new Launch(m_shooter), new WaitCommand(0.5),
+      new Latch(m_shooter));
   private final Command m_reload = new Draw(m_shooter);
   private final Command m_intakeIdle = new IntakeIdle(m_intake);
+  private final Command m_autoSequence = new SequentialCommandGroup(new Reload(m_shooter), new WaitCommand(0.5),
+      new Launch(m_shooter), new WaitCommand(0.5), new ParallelCommandGroup(new Latch(m_shooter), new MoveForTime(m_drivetrain, 2)));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -119,6 +125,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return m_autoSequence;
   }
 }
