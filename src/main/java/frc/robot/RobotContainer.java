@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -81,20 +81,17 @@ public class RobotContainer {
       new Latch(m_shooter));
   private final Command m_reload = new Draw(m_shooter);
   private final Command m_intakeIdle = new IntakeIdle(m_intake);
+  private final Command m_drivetrainIdle = new DrivetrainIdle(m_drivetrain);
   private final Command m_autoSequence = new SequentialCommandGroup(
-      new ParallelRaceGroup(
-          new DrivetrainIdle(m_drivetrain),
-          new SequentialCommandGroup(
-              new Reload(m_shooter),
-              new WaitCommand(0.5),
-              new Launch(m_shooter),
-              new WaitCommand(0.5),
-              m_drivetrain.getLowGear())),
-      new ParallelRaceGroup(
+      new SequentialCommandGroup(
+          new Reload(m_shooter),
+          new WaitCommand(0.5),
+          new Launch(m_shooter),
+          new WaitCommand(0.5),
+          m_drivetrain.getLowGear()),
+      new ParallelCommandGroup(
           new Latch(m_shooter),
-          new SequentialCommandGroup(
-              new MoveForTime(m_drivetrain, 2),
-              new DrivetrainIdle(m_drivetrain))));
+          new MoveForTime(m_drivetrain, 2)));
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -103,7 +100,7 @@ public class RobotContainer {
     configureButtonBindings();
     m_compressor.enableDigital();
 
-    m_drivetrain.setDefaultCommand(m_arcadeDrive);
+    m_drivetrain.setDefaultCommand(m_drivetrainIdle);
     m_intake.setDefaultCommand(m_intakeIdle);
 
     CameraServer.startAutomaticCapture();
@@ -141,5 +138,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return m_autoSequence;
+  }
+
+  public void teleopInit() {
+    m_drivetrain.setDefaultCommand(m_arcadeDrive);
   }
 }
